@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+    <!--  -->
+    <!-- 定义参数常量 -->
+    <!-- TRACE < DEBUG < INFO < WARN < ERROR -->
+    <property name="log.level" value="debug"/>
+    <property name="log.maxHistory" value="5"/>
+    <property name="log.filePath" value="./logs/mmall"/>
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+
+    <!-- 打印至控制台 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 打印至文件 -->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 文件名，当天生成的日志文件名 -->
+        <file>${log.filePath}/mmall.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 不同的日期生成的日志文件打包格式 -->
+            <fileNamePattern>
+                ${log.filePath}/mmall.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- 保存时间，天 -->
+            <maxHistory>${log.maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 只打印DEBUG及以上的日志记录 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <!-- root是默认的logger 这里设定输出级别是info -->
+    <root level="info">
+        <!-- 定义的appender，日志会往定义的appender里面写 -->
+        <appender-ref ref="consoleAppender"/>
+    </root>
+
+    <logger name="com.gen.mmall" level="${log.level}" additivity="true">
+        <appender-ref ref="fileAppender"/>
+    </logger>
+
+    <!--对于类路径以 com.example.logback 开头的Logger,输出级别设置为warn,并且只输出到控制台-->
+    <!--这个logger没有指定appender，它会继承root节点中定义的那些appender-->
+    <!--<logger name="com.example.logback" level="warn"/>-->
+
+    <!--通过 LoggerFactory.getLogger("mytest") 可以获取到这个logger-->
+    <!--由于这个logger自动继承了root的appender，root中已经有stdout的appender了，自己这边又引入了stdout的appender-->
+    <!--如果没有设置 additivity="false" ,就会导致一条日志在控制台输出两次的情况-->
+    <!--additivity表示要不要使用rootLogger配置的appender进行输出-->
+    <!--<logger name="mytest" level="info" additivity="false">-->
+    <!--    <appender-ref ref="stdout"/>-->
+    <!--</logger>-->
+
+    <!--由于设置了 additivity="false" ，所以输出时不会使用rootLogger的appender-->
+    <!--但是这个logger本身又没有配置appender，所以使用这个logger输出日志的话就不会输出到任何地方-->
+    <!--<logger name="mytest2" level="info" additivity="false"/>-->
+
+</configuration>
+
+
+
+        <!--<?xml version="1.0" encoding="utf-8"?>-->
+        <!--<configuration scan="true" scanPeriod="10 seconds" debug="false">-->
+        <!--&lt;!&ndash;  &ndash;&gt;-->
+        <!--&lt;!&ndash; 定义参数常量 &ndash;&gt;-->
+        <!--&lt;!&ndash; TRACE < DEBUG < INFO < WARN < ERROR &ndash;&gt;-->
+        <!--<property name="log.level" value="debug"/>-->
+        <!--<property name="log.maxHistory" value="30"/>-->
+        <!--<property name="log.filePath" value="${catalina.base}/logs/webapps"/>-->
+        <!--<property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>-->
+
+        <!--&lt;!&ndash; 控制台设置 &ndash;&gt;-->
+        <!--<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--    <encoder>-->
+        <!--        <pattern>${log.pattern}</pattern>-->
+        <!--    </encoder>-->
+        <!--</appender>-->
+        <!--&lt;!&ndash; DEBUG &ndash;&gt;-->
+        <!--<appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--    &lt;!&ndash; 文件路径 &ndash;&gt;-->
+        <!--    <file>${log.filePath}/debug.log</file>-->
+        <!--    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+        <!--        &lt;!&ndash; 文件名称 &ndash;&gt;-->
+        <!--        <fileNamePattern>-->
+        <!--            ${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz-->
+        <!--        </fileNamePattern>-->
+        <!--        <maxHistory>${log.maxHistory}</maxHistory>-->
+        <!--    </rollingPolicy>-->
+        <!--    <encoder>-->
+        <!--        <pattern>${log.pattern}</pattern>-->
+        <!--    </encoder>-->
+        <!--    <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--        <level>DEBUG</level>-->
+        <!--        <onMatch>ACCEPT</onMatch>-->
+        <!--        <onMismatch>DENY</onMismatch>-->
+        <!--    </filter>-->
+        <!--</appender>-->
+        <!--&lt;!&ndash; INFO &ndash;&gt;-->
+        <!--<appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--    &lt;!&ndash; 文件路径 &ndash;&gt;-->
+        <!--    <file>${log.filePath}/info.log</file>-->
+        <!--    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+        <!--        &lt;!&ndash; 文件名称 &ndash;&gt;-->
+        <!--        <fileNamePattern>-->
+        <!--            ${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz-->
+        <!--        </fileNamePattern>-->
+        <!--        <maxHistory>${log.maxHistory}</maxHistory>-->
+        <!--    </rollingPolicy>-->
+        <!--    <encoder>-->
+        <!--        <pattern>${log.pattern}</pattern>-->
+        <!--    </encoder>-->
+        <!--    <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--        <level>INFO</level>-->
+        <!--        <onMatch>ACCEPT</onMatch>-->
+        <!--        <onMismatch>DENY</onMismatch>-->
+        <!--    </filter>-->
+        <!--</appender>-->
+        <!--&lt;!&ndash; ERROR &ndash;&gt;-->
+        <!--<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--    &lt;!&ndash; 文件路径 &ndash;&gt;-->
+        <!--    <file>${log.filePath}/error.log</file>-->
+        <!--    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+        <!--        &lt;!&ndash; 文件名称 &ndash;&gt;-->
+        <!--        <fileNamePattern>-->
+        <!--            ${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz-->
+        <!--        </fileNamePattern>-->
+        <!--        <maxHistory>${log.maxHistory}</maxHistory>-->
+        <!--    </rollingPolicy>-->
+        <!--    <encoder>-->
+        <!--        <pattern>${log.pattern}</pattern>-->
+        <!--    </encoder>-->
+        <!--    <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+        <!--        <level>ERROR</level>-->
+        <!--        <onMatch>ACCEPT</onMatch>-->
+        <!--        <onMismatch>DENY</onMismatch>-->
+        <!--    </filter>-->
+        <!--</appender>-->
+
+        <!--<logger name="com.gen.o2o" level="${log.level}" additivity="true">-->
+        <!--    <appender-ref ref="debugAppender"/>-->
+        <!--    <appender-ref ref="infoAppender"/>-->
+        <!--    <appender-ref ref="errorAppender"/>-->
+        <!--</logger>-->
+
+        <!--<root level="info">-->
+        <!--    <appender-ref ref="consoleAppender"/>-->
+        <!--</root>-->
+        <!--</configuration>-->
