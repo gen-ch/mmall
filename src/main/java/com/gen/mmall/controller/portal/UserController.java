@@ -37,13 +37,13 @@ public class UserController {
         return ServerResponse.createBySuccess();
     }
 
-    @RequestMapping(value = "register.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/register.do",method = RequestMethod.POST)
     public ServerResponse<String> register(User user){
         return iUserService.register(user);
     }
 
 
-    @RequestMapping(value = "check_valid.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/check_valid",method = RequestMethod.POST)
     public ServerResponse<String> checkValid(String str,String type){
         return iUserService.checkValid(str,type);
     }
