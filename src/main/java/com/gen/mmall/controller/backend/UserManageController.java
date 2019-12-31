@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
-@RestController("/manage/user")
+@RestController
+@RequestMapping("/manage")
 public class UserManageController {
 
     @Autowired
