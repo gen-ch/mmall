@@ -44,7 +44,6 @@ public class UserController {
         return iUserService.register(user);
     }
 
-
     @RequestMapping(value = "/check_valid", method = RequestMethod.POST)
     public ServerResponse<String> checkValid(String str, String type) {
         return iUserService.checkValid(str, type);
@@ -84,7 +83,6 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update_information", method = RequestMethod.POST)
-    @ResponseBody
     public ServerResponse<User> update_information(HttpSession session, User user) {
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
@@ -101,7 +99,6 @@ public class UserController {
     }
 
     @RequestMapping(value = "/get_information", method = RequestMethod.POST)
-    @ResponseBody
     public ServerResponse<User> get_information(HttpSession session) {
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
