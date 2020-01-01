@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/manage")
+@RequestMapping("/manage/user")
 public class UserManageController {
 
     @Autowired
