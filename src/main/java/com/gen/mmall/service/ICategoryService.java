@@ -1,6 +1,9 @@
 package com.gen.mmall.service;
 
 import com.gen.mmall.common.ServerResponse;
+import com.gen.mmall.pojo.Category;
+
+import java.util.List;
 
 public interface ICategoryService {
 
@@ -8,4 +11,7 @@ public interface ICategoryService {
 
     ServerResponse updateCategoryName(Integer categoryId, String categoryName);
 
+    ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId);
+
+    ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId);
 }
