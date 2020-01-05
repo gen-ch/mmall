@@ -1,8 +1,14 @@
 package com.gen.mmall.util;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.security.MessageDigest;
 
 public class MD5Util {
+
+    private static final String hexDigits[] = {"0", "1", "2", "3", "4", "5",
+            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
 
     private static String byteArrayToHexString(byte b[]) {
         StringBuffer resultSb = new StringBuffer();
@@ -44,12 +50,8 @@ public class MD5Util {
     }
 
     public static String MD5EncodeUtf8(String origin) {
-//        origin = origin + PropertiesUtil.getProperty("password.salt", "");
+        origin = origin + "salt";
         return MD5Encode(origin, "utf-8");
     }
-
-
-    private static final String hexDigits[] = {"0", "1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
 
 }
