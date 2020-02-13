@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-@Service("IOrderService")
+@Service("iOrderService")
 public class OrderServiceImpl implements IOrderService {
 
     private static AlipayTradeService tradeService;
