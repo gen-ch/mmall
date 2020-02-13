@@ -133,7 +133,7 @@ public class OrderServiceImpl implements IOrderService {
                 .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
                 //todo 设置支付宝回调地址
-                .setNotifyUrl("{url}/order/alipay_callback")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                //.setNotifyUrl("http://azsysk.natappfree.cc/order/alipay_callback")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
                 .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
@@ -143,7 +143,8 @@ public class OrderServiceImpl implements IOrderService {
 
                 AlipayTradePrecreateResponse response = result.getResponse();
                 dumpResponse(response);
-
+                resultMap.put("qr_code",response.getQrCode());
+                /*
                 File folder = new File(path);
                 if (!folder.exists()) {
                     folder.setWritable(true);
@@ -166,6 +167,7 @@ public class OrderServiceImpl implements IOrderService {
                 logger.info("qrPath:" + qrPath);
                 String qrUrl = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFile.getName();
                 resultMap.put("qrUrl", qrUrl);
+                */
                 return ServerResponse.createBySuccess(resultMap);
 
             case FAILED:
