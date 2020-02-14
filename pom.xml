@@ -96,7 +96,7 @@
         <dependency>
             <groupId>com.alipay</groupId>
             <artifactId>alipay-trade-sdk-20161215</artifactId>
-            <version>1.0</version>
+            <version>20161215</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/lib/alipay-trade-sdk-20161215.jar</systemPath>
         </dependency>
@@ -143,6 +143,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- 支付宝相关 -->
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -162,12 +166,19 @@
                 </configuration>
             </plugin>
 
-            <!-- 支付宝相关 -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <includeSystemScope>true</includeSystemScope>
+                    <webResources>
+                        <resource>
+                            <directory>${project.basedir}/src/main/resources/lib</directory>
+                            <targetPath>WEB-INF/lib</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
