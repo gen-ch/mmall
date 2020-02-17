@@ -166,6 +166,7 @@
                 </configuration>
             </plugin>
 
+            <!-- 发布到外部tomcat需要做的配置 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -181,9 +182,39 @@
                     </webResources>
                 </configuration>
             </plugin>
-
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources.${deploy.type}</directory>
+                <excludes>
+                    <exclude>*.jsp</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
         <finalName>mmall</finalName>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <deploy.type>dev</deploy.type>
+            </properties>
+        </profile>
+        <profile>
+            <id>vmCentOS</id>
+            <properties>
+                <deploy.type>vmCentOS</deploy.type>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
