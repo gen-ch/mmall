@@ -1,5 +1,6 @@
 package com.gen.mmall.controller;
 
+import com.gen.mmall.common.config.RedisConfig;
 import com.gen.mmall.dao.CartMapper;
 import com.gen.mmall.util.MD5Util;
 import org.slf4j.Logger;
@@ -23,6 +24,9 @@ public class Test {
     @Autowired
     private CartMapper cartMapper;
 
+    @Autowired
+    private RedisConfig redisConfig;
+
     @RequestMapping("/test")
     public Map TestAcc(){
         logger.info("info日志测试");
@@ -33,6 +37,7 @@ public class Test {
 //        map.put("obj",cartMapper.selectByPrimaryKey(126));
 //        map.put("md5salt", MD5Util.getSalt());
         map.put("salt", salt);
+        map.put("redis属性",redisConfig.getIp());
         return map;
     }
 }
