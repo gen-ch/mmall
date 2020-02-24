@@ -5,11 +5,15 @@ import com.gen.mmall.common.ResponseCode;
 import com.gen.mmall.common.ServerResponse;
 import com.gen.mmall.pojo.User;
 import com.gen.mmall.service.IUserService;
+import com.gen.mmall.util.CookieUtil;
+import com.gen.mmall.util.JsonUtil;
+import com.gen.mmall.util.RedisShardedPoolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
@@ -23,11 +27,12 @@ public class UserController {
      * 用户登录
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ServerResponse<User> login(String username, String password, HttpSession session) {
+    public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse) {
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()) {
 //            session.setAttribute(Const.CURRENT_USER, response.getData());
-            System.out.println(session.getId());
+            CookieUtil.writeLoginToken(httpServletResponse, session.getId());
+            RedisShardedPoolUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()), Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return response;
     }
