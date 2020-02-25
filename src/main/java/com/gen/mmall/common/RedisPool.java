@@ -49,9 +49,9 @@ public class RedisPool {
     }
 
     /**
-     * jedis 3.0 版本后启用下面两个方法，释放资源方式为直接调用close方法
+     * jedis 3.0 版本后停用下面两个方法，释放资源方式为直接调用close方法
      * Jedis jedis = pool.getResource();
-     * ---业务操作
+     * ---  业务操作
      * jedis.close();
      *
      */
@@ -64,7 +64,6 @@ public class RedisPool {
 //        pool.returnResource(jedis);
         jedis.close();
     }
-
 
     public static void main(String[] args) {
         Jedis jedis = pool.getResource();
