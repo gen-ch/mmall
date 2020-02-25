@@ -59,7 +59,6 @@ public class UserController {
 
     @RequestMapping(value = "/get_user_info")
     public ServerResponse<User> getUserInfo(HttpServletRequest request) {
-//        User user = (User) session.getAttribute(Const.CURRENT_USER);
         String loginToken = CookieUtil.readLoginToken(request);
         if (StringUtils.isEmpty(loginToken)) {
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
