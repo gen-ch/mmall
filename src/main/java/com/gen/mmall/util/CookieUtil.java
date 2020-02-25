@@ -14,7 +14,8 @@ public class CookieUtil {
 
     //cookie保存在该域名下，xxx.gen.com 均可读取该cookie
     //同级之间不可获取，如 aa.gen.com 和 bb.gen.com 之间的 cookie 不共享，setPath 方法同理
-    private final static String COOKIE_DOMAIN = ".gen.com";
+    //tomcat高于8.5版本，域名前不加“.”  低于8.5版本，域名前需要加点，即 ".gen.com"
+    private final static String COOKIE_DOMAIN = "gen.com";
     private final static String COOKIE_NAME = "mmall_login_token";
 
     public static String readLoginToken(HttpServletRequest request) {

@@ -8,7 +8,10 @@ import com.gen.mmall.pojo.User;
 import com.gen.mmall.service.IFileService;
 import com.gen.mmall.service.IProductService;
 import com.gen.mmall.service.IUserService;
+import com.gen.mmall.util.CookieUtil;
+import com.gen.mmall.util.JsonUtil;
 import com.gen.mmall.util.PropertiesUtil;
+import com.gen.mmall.util.RedisPoolUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +140,17 @@ public class ProductManageController {
                                  @RequestParam(value = "upload_file",required = false) MultipartFile file,
                                  HttpServletRequest request, HttpServletResponse response){
         Map resultMap = Maps.newHashMap();
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
+//        User user = (User)session.getAttribute(Const.CURRENT_USER);
+
+        String loginToken = CookieUtil.readLoginToken(request);
+        if (StringUtils.isEmpty(loginToken)) {
+            resultMap.put("success",false);
+            resultMap.put("msg","请登录管理员");
+            return resultMap;
+        }
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+
         if(user == null){
             resultMap.put("success",false);
             resultMap.put("msg","请登录管理员");
