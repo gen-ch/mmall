@@ -1,14 +1,13 @@
 package com.gen.mmall.common;
 
-import com.gen.mmall.common.config.RedisConfig;
 import com.gen.mmall.util.PropUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.Properties;
 
+// 单个redis连接
 public class RedisPool {
 
     private static Properties props = PropUtil.getProperties("application.properties");
@@ -25,7 +24,7 @@ public class RedisPool {
     private static Integer redisPort = Integer.valueOf(props.getProperty("redis.port"));
 
 
-    private static void initPool(){
+    private static void initPool() {
         JedisPoolConfig config = new JedisPoolConfig();
 
         config.setMaxTotal(maxTotal);
@@ -37,14 +36,14 @@ public class RedisPool {
 
         config.setBlockWhenExhausted(true);//连接耗尽的时候，是否阻塞，false会抛出异常，true阻塞直到超时。默认为true。
 
-        pool = new JedisPool(config,redisIp,redisPort,1000*2);
+        pool = new JedisPool(config, redisIp, redisPort, 1000 * 2);
     }
 
-    static{
+    static {
         initPool();
     }
 
-    public static Jedis getJedis(){
+    public static Jedis getJedis() {
         return pool.getResource();
     }
 
@@ -53,21 +52,20 @@ public class RedisPool {
      * Jedis jedis = pool.getResource();
      * ---  业务操作
      * jedis.close();
-     *
      */
-    public static void returnBrokenResource(Jedis jedis){
+    public static void returnBrokenResource(Jedis jedis) {
 //        pool.returnBrokenResource(jedis);
         jedis.close();
     }
 
-    public static void returnResource(Jedis jedis){
+    public static void returnResource(Jedis jedis) {
 //        pool.returnResource(jedis);
         jedis.close();
     }
 
     public static void main(String[] args) {
         Jedis jedis = pool.getResource();
-        jedis.set("sdgv","geelyvalue");
+        jedis.set("sdgv", "geelyvalue");
         jedis.close();
 
         pool.destroy();//临时调用，销毁连接池中的所有连接
