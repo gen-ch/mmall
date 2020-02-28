@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(filterName = "sessionExpireFilter", urlPatterns = "/")
+@WebFilter(filterName = "sessionExpireFilter", urlPatterns = "/*")
 public class SessionExpireFilter implements Filter {
 
     @Override
